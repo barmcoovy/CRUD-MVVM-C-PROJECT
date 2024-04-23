@@ -1,0 +1,100 @@
+﻿<Window x:Class="MVVM_PROJECT.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MVVM_PROJECT"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5,0" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5,5" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <Label>Nazwa</Label>
+                <TextBox Text="{Binding Nazwa}" />
+
+                <Label>Producent</Label>
+                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Producenci}" SelectedItem="{Binding Producent}" />
+
+                <Label>Magazyn</Label>
+                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Magazyny}" SelectedItem="{Binding WybranyMagazyn}" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Dodaj" Command="{Binding DodajZabawkeCommand}"/>
+                    <Button Content="Generuj" Command="{Binding GenerujZabawkiCommand}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1">
+                <Label>Nowa nazwa</Label>
+                <TextBox Text="{Binding EdycjaZabawka.Nazwa}"/>
+
+                <Label>Nowy producent</Label>
+                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Producenci}" SelectedItem="{Binding EdycjaZabawka.Producent}" />
+
+                <Label>Nowy magazyn</Label>
+                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Magazyny}" SelectedItem="{Binding EdycjaZabawka.Magazyn}" />
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Zapisz zmiany" Command="{Binding ZapiszZmianyCommand}"/>
+                    <Button Content="Anuluj zmiany" Command="{Binding AnulujZmianyCommand}"/>
+                </StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CzyTrybEdycji}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding CzyTrybEdycji}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <DataGrid Grid.Row="0"
+                      ItemsSource="{Binding Zabawki}"
+                      AutoGenerateColumns="False"
+                      SelectedItem="{Binding ZaznaczonaZabawka}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" />
+                    <DataGridTextColumn Header="Producent" Binding="{Binding Producent.Nazwa}" />
+                    <DataGridTextColumn Header="Magazyn" Binding="{Binding Magazyn.Nazwa}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Edytuj" Command="{Binding EdytujZabawkeCommand}" IsEnabled="{Binding ElementName=dataGrid, Path=SelectedItem}"/>
+                <Button Content="Usuń" Command="{Binding UsunZabawkeCommand}" IsEnabled="{Binding ElementName=dataGrid, Path=SelectedItem}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
