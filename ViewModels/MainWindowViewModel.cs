@@ -99,9 +99,9 @@ namespace MVVM_PROJECT.ViewModels
             Zabawki.Add(new ZabawkaViewModel(new ZabawkaModel
             {
                 Nazwa = Nazwa,
-                Magazyn = WybranyMagazyn.Model,
-                Producent = WybranyProducent.Model
-            })); ;
+                Producent = WybranyProducent.Model,
+                Magazyn = WybranyMagazyn.Model
+            }));
         }
 
         public bool CzyMoznaDodacZabawke()
@@ -115,12 +115,12 @@ namespace MVVM_PROJECT.ViewModels
         public void EdytujZabawke()
         {
             
+            EdycjaZabawka = ZaznaczonaZabawka;
             CzyTrybEdycji = true;
             Nazwa = ZaznaczonaZabawka.Nazwa;
             WybranyProducent = ZaznaczonaZabawka.Producent;
             WybranyMagazyn = ZaznaczonaZabawka.Magazyn;
             
-            EdycjaZabawka = ZaznaczonaZabawka;
 
 
         }

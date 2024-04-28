@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MVVM_PROJECT"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="900">
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="5" />
@@ -14,7 +14,15 @@
             <Setter Property="Margin" Value="5,0" />
         </Style>
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="5,5" />
+            <Setter Property="Margin" Value="15,15" />
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style TargetType="Button" x:Key="Usun_Edytuj_Btn">
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="15"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -22,79 +30,77 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0">
-                <Label>Nazwa</Label>
-                <TextBox Text="{Binding Nazwa}" />
 
-                <Label>Producent</Label>
-                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Producenci}" SelectedItem="{Binding Producent}" />
+        <StackPanel Grid.Row="0" Margin="10">
+            <Label>Nazwa</Label>
+            <TextBox Text="{Binding Nazwa}" />
 
-                <Label>Magazyn</Label>
-                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Magazyny}" SelectedItem="{Binding WybranyMagazyn}" />
+            <Label>Producent</Label>
+            <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Producenci}" SelectedItem="{Binding WybranyProducent}" />
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Dodaj" Command="{Binding DodajZabawkeCommand}"/>
-                    <Button Content="Generuj" Command="{Binding GenerujZabawkiCommand}"/>
-                </StackPanel>
+            <Label>Magazyn</Label>
+            <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Magazyny}" SelectedItem="{Binding WybranyMagazyn}" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Dodaj" Command="{Binding DodajZabawkeCommand}"/>
+                <Button Content="Generuj" Command="{Binding GenerujZabawkiCommand}"/>
             </StackPanel>
+        </StackPanel>
 
-            <StackPanel Grid.Row="1">
-                <Label>Nowa nazwa</Label>
-                <TextBox Text="{Binding EdycjaZabawka.Nazwa}"/>
-
-                <Label>Nowy producent</Label>
-                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Producenci}" SelectedItem="{Binding EdycjaZabawka.Producent}" />
-
-                <Label>Nowy magazyn</Label>
-                <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Magazyny}" SelectedItem="{Binding EdycjaZabawka.Magazyn}" />
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Zapisz zmiany" Command="{Binding ZapiszZmianyCommand}"/>
-                    <Button Content="Anuluj zmiany" Command="{Binding AnulujZmianyCommand}"/>
-                </StackPanel>
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CzyTrybEdycji}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding CzyTrybEdycji}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-            </StackPanel>
-        </Grid>
-
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-
-            <DataGrid Grid.Row="0"
+        <DataGrid Grid.Row="1"
                       ItemsSource="{Binding Zabawki}"
                       AutoGenerateColumns="False"
                       SelectedItem="{Binding ZaznaczonaZabawka}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" />
-                    <DataGridTextColumn Header="Producent" Binding="{Binding Producent.Nazwa}" />
-                    <DataGridTextColumn Header="Magazyn" Binding="{Binding Magazyn.Nazwa}" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nazwa" Binding="{Binding Nazwa}" />
+                <DataGridTextColumn Header="Producent" Binding="{Binding Producent.Nazwa}" />
+                <DataGridTextColumn Header="Magazyn" Binding="{Binding Magazyn.Nazwa}" />
+            </DataGrid.Columns>
+        </DataGrid>
 
+        <StackPanel Margin="20" Grid.Column="1" Grid.RowSpan="2">
+            <Label HorizontalContentAlignment="Center" FontSize="25">TRYB EDYCJI</Label>
+            <Label>Nowa nazwa</Label>
+            <TextBox Text="{Binding EdycjaZabawka.Nazwa}"/>
+            <Label>Nowy producent</Label>
+            <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Producenci}" SelectedItem="{Binding EdycjaZabawka.Producent}" />
+
+            <Label>Nowy magazyn</Label>
+            <ComboBox DisplayMemberPath="Nazwa" ItemsSource="{Binding Magazyny}" SelectedItem="{Binding EdycjaZabawka.Magazyn}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Zapisz" Command="{Binding ZapiszZmianyCommand}"/>
+                <Button Content="Anuluj" Command="{Binding AnulujZmianyCommand}"/>
+            </StackPanel>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CzyTrybEdycji}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CzyTrybEdycji}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Edytuj" Command="{Binding EdytujZabawkeCommand}" IsEnabled="{Binding ElementName=dataGrid, Path=SelectedItem}"/>
-                <Button Content="Usuń" Command="{Binding UsunZabawkeCommand}" IsEnabled="{Binding ElementName=dataGrid, Path=SelectedItem}"/>
+                <Button Style="{StaticResource Usun_Edytuj_Btn}" Content="Edytuj" Command="{Binding EdytujZabawkeCommand}" IsEnabled="{Binding SelectedItem, ElementName=dataGrid}"/>
+                <Button Style="{StaticResource Usun_Edytuj_Btn}" Content="Usuń" Command="{Binding UsunZabawkeCommand}" IsEnabled="{Binding SelectedItem, ElementName=dataGrid}"/>
             </StackPanel>
         </Grid>
+        
     </Grid>
+
 </Window>
