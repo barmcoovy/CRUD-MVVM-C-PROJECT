@@ -1,2 +1,2 @@
-# MVVM-PROJECT
-Aplikacja pozwala na wykonanie wszystkich czynności CRUD-owych
+# CRUD MVVVM C# PROJECT
+App created in WPF 
